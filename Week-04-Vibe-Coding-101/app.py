@@ -3,6 +3,9 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
+from pathlib import Path
+
+DATA_PATH = Path(__file__).parent / "data" / "movie_ratings.csv"
 
 st.set_page_config(page_title="MovieLens Dashboard", layout="wide", page_icon="🎬")
 
@@ -22,7 +25,7 @@ PURPLE = "#7b4fa6"
 
 @st.cache_data
 def load_data():
-    df = pd.read_csv("data/movie_ratings.csv")
+    df = pd.read_csv(DATA_PATH)
     df["genres_list"] = df["genres"].str.split("|")
     exploded = df.explode("genres_list").copy()
     exploded = exploded[exploded["genres_list"].notna() & (exploded["genres_list"] != "")]
